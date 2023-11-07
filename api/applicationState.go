@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"sync"
 )
 
@@ -21,7 +20,6 @@ func (appState *ApplicationState) AddClick() {
 		appState.totalClicksMutex.Lock()
 		appState.totalClicks += 1
 		appState.totalClicksMutex.Unlock()
-		log.Printf("%v", appState.totalClicks)
 	}()
 }
 
