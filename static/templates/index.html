@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html data-theme="forest">
+
+<head>
+    <meta charset='utf-8'>
+    <title>HTMX Template Example</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type="text/css" href='../css/output.css'>
+    <script src="../htmx/htmx.js"></script>
+</head>
+
+<body class="w-screen h-screen bg-base-100 text-white">
+    <div class="container mx-auto p-5">
+        <h1 class="mb-5 text-2xl font-bold text-center">HTMX Example</h1>
+        <div class="flex mb-10 w-full justify-evenly">
+            <button class="btn btn-active btn-primary w-1/3" hx-get="/api/addItem" hx-target="#contentDiv" hx-swap="beforeend">Add Item</button>
+            <button class="btn btn-active btn-accent w-1/3" hx-get="/api/deleteAll" hx-target="#contentDiv" hx-swap="innerhtml" hx-confirm="Are you sure you want to delete all items?">Delete All</button>
+        </div>
+        <div class="flex gap-5 justify-start flex-wrap" id="contentDiv">
+        </div>
+    </div>
+</body>
+
+</html>

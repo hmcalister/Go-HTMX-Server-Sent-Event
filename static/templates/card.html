@@ -1,0 +1,11 @@
+<div class="card basis-1/5 bg-neutral p-5 flex-col grow transitionFade" id="card{{.ItemID}}">
+    <div class="card-title">
+        <h2 class="text-xl font-bold text-center">Item {{.ItemID}}</h2>
+    </div>
+    <div class="card-body">
+        <button class="btn btn-active btn-accent btn-block" 
+            hx-get="/api/deleteItem" hx-target="#card{{.ItemID}}" hx-swap="outerHTML swap:0.5s">
+            Delete Item {{.ItemID}}
+        </button>
+    </div>
+</div>
