@@ -40,10 +40,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("error parsing template: %v", err)
 	}
-	cardTemplate, err := template.ParseFS(templatesFS, "card.html")
-	if err != nil {
-		log.Fatalf("error parsing template: %v", err)
-	}
 
 	// Add handlers for CSS and HTMX files --------------------------------------------------------
 
@@ -63,6 +59,7 @@ func main() {
 	})
 
 	// Add handlers for base routes, e.g. initial page --------------------------------------------
+
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
 		err = indexTemplate.Execute(w, nil)
 		if err != nil {
