@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"embed"
+	"fmt"
 	"hmcalister/HTMXServerSentEvent/api"
 	"html/template"
 	"io/fs"
 	"log"
 	"net/http"
+	"time"
 )
 
 var (
@@ -15,6 +18,9 @@ var (
 
 	//go:embed static/htmx/htmx.js
 	embedHTMXFile []byte
+
+	//go:embed static/htmx/sse.js
+	embedSSEFile []byte
 
 	//go:embed static/templates/*.html
 	templatesFS embed.FS
@@ -49,6 +55,11 @@ func main() {
 	http.HandleFunc("/htmx/htmx.js", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/javascript")
 		w.Write(embedHTMXFile)
+	})
+
+	http.HandleFunc("/htmx/sse.js", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/javascript")
+		w.Write(embedSSEFile)
 	})
 
 	// Add handlers for base routes, e.g. initial page --------------------------------------------
