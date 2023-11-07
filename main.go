@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"embed"
+	"flag"
 	"fmt"
 	"hmcalister/HTMXServerSentEvent/api"
 	"html/template"
@@ -24,7 +25,14 @@ var (
 
 	//go:embed static/templates/*.html
 	templatesFS embed.FS
+
+	port *int
 )
+
+func init() {
+	port = flag.Int("port", 8080, "The port to run the application on.")
+	flag.Parse()
+}
 
 func main() {
 	var err error
@@ -60,7 +68,7 @@ func main() {
 
 	// Add handlers for base routes, e.g. initial page --------------------------------------------
 
-	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err = indexTemplate.Execute(w, nil)
 		if err != nil {
 			log.Fatalf("error during index template execute: %v", err)
@@ -98,8 +106,8 @@ func main() {
 
 	// Start server -------------------------------------------------------------------------------
 
-	log.Printf("Serving template at http://localhost:8080/index")
-	err = http.ListenAndServe(":8080", nil)
+	log.Printf("Serving template at http://localhost:%v/", *port)
+	err = http.ListenAndServe(fmt.Sprintf(":%v", *port), nil)
 	if err != nil {
 		log.Fatalf("error during http serving: %v", err)
 	}
