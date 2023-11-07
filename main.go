@@ -74,9 +74,26 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	http.HandleFunc("/api/deleteAll", func(w http.ResponseWriter, r *http.Request) {
-		applicationState.DeleteAll()
-		w.Write(nil)
+	http.HandleFunc("/api/globalClickSSE", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		w.Header().Set("Cache-Control", "no-cache")
+		w.Header().Set("Connection", "keep-alive")
+
+		eventChannel := make(chan int)
+		_, cancel := context.WithCancel(r.Context())
+		defer cancel()
+
+		go func() {
+			for globalClickCount := range eventChannel {
+				fmt.Fprintf(w, "data: %v\n\n", globalClickCount)
+				w.(http.Flusher).Flush()
+			}
+		}()
+
+		for {
+			eventChannel <- applicationState.GetClicks()
+			time.Sleep(1 * time.Second)
+		}
 	})
 
 	// Start server -------------------------------------------------------------------------------
