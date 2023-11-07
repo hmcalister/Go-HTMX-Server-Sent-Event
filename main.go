@@ -69,6 +69,9 @@ func main() {
 
 	// Add any API routes -------------------------------------------------------------------------
 
+	http.HandleFunc("/api/click", func(w http.ResponseWriter, r *http.Request) {
+		applicationState.AddClick()
+		w.WriteHeader(http.StatusOK)
 	})
 
 	http.HandleFunc("/api/deleteAll", func(w http.ResponseWriter, r *http.Request) {
