@@ -39,7 +39,7 @@ func init() {
 
 func main() {
 	var err error
-	applicationState := api.NewApplicationState()
+	applicationState := api.NewApplicationState(*initialClickCount)
 
 	// Parse templates from embedded file system --------------------------------------------------
 
@@ -102,8 +102,15 @@ func main() {
 		}()
 
 		for {
-			eventChannel <- applicationState.GetClicks()
-			time.Sleep(1 * time.Second)
+			select {
+			case <-r.Context().Done():
+				log.Printf("DONE")
+				return
+			default:
+				log.Printf("SEND")
+				eventChannel <- applicationState.GetClicks()
+				time.Sleep(1 * time.Second)
+			}
 		}
 	})
 
