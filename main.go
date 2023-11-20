@@ -104,10 +104,8 @@ func main() {
 		for {
 			select {
 			case <-r.Context().Done():
-				log.Printf("DONE")
 				return
 			default:
-				log.Printf("SEND")
 				eventChannel <- applicationState.GetClicks()
 				time.Sleep(1 * time.Second)
 			}
