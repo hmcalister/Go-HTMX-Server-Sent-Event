@@ -27,10 +27,13 @@ var (
 	templatesFS embed.FS
 
 	port *int
+
+	initialClickCount *int
 )
 
 func init() {
 	port = flag.Int("port", 8080, "The port to run the application on.")
+	initialClickCount = flag.Int("initialClickCount", 0, "The initial click count when restarting the server.")
 	flag.Parse()
 }
 
