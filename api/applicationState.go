@@ -9,9 +9,9 @@ type ApplicationState struct {
 	totalClicksMutex sync.Mutex
 }
 
-func NewApplicationState() *ApplicationState {
+func NewApplicationState(initialClickCount int) *ApplicationState {
 	return &ApplicationState{
-		totalClicks: 0,
+		totalClicks: initialClickCount,
 	}
 }
 
